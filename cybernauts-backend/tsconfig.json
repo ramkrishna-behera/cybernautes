@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+   
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+        "module": "CommonJS",
+    "moduleResolution": "node",
+    "target": "ES2020",
+    "rootDir": "src",
+    "outDir": "dist",
+    "esModuleInterop": true
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,25 @@
+:root {
+  --bg: #0f1724;
+  --panel: #0b1220;
+  --muted: #9aa6bf;
+  --accent: #1e90ff;
+}
+
+html,body,#root { height: 100%; margin: 0; font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial; background: #0b1020; color: #e6eef8; }
+
+.app { display: flex; flex-direction: column; height: 100vh; }
+.app-header { padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.03); display:flex; align-items:center; gap:12px; }
+.app-header h1 { margin: 0; font-size: 18px; font-weight:600; color:var(--accent); }
+
+.app-main { padding: 12px; display:flex; flex-direction:column; gap:12px; }
+
+.graph-container { background: #071028; border-radius: 8px; padding: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
+.graph-toolbar { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+.graph-toolbar button { padding:6px 10px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer; }
+.graph-toolbar .muted { color: var(--muted); margin-left: 10px; }
+.graph-toolbar .error { color: #ff7070; margin-left: 10px; }
+
+.reactflow-wrapper { border-radius:8px; overflow:hidden; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00)); display:flex; align-items:center; justify-content:center; }
+
+.spinner { padding: 20px; color: var(--muted); }
+.error-panel { padding: 12px; color: #ffb3b3; }
