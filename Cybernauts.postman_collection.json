@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "f14f82f2-457c-4b46-9d0d-477095fdfc27",
+		"name": "Cybernauts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46628485"
+	},
+	"item": [
+		{
+			"name": "Start Point",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/users",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"Alice\",\r\n  \"age\": 25,\r\n  \"hobbies\": [\"Reading\", \"Gaming\", \"Cooking\"]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/users",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"Alice\",\r\n  \"age\": 26,\r\n  \"hobbies\": [\"Reading\", \"Gaming\", \"Cooking\", \"hiking\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/users/82800d6f-8b62-44b1-a45b-62ee291a209c",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"82800d6f-8b62-44b1-a45b-62ee291a209c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Relationship - Link",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"friendId\":\"67779ea9-bacc-4793-be7e-f4b55be5ab7f\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/users/82800d6f-8b62-44b1-a45b-62ee291a209c/link",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"82800d6f-8b62-44b1-a45b-62ee291a209c",
+						"link"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Relationship - Unlink",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"friendId\":\"67779ea9-bacc-4793-be7e-f4b55be5ab7f\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/users/82800d6f-8b62-44b1-a45b-62ee291a209c/unlink",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"82800d6f-8b62-44b1-a45b-62ee291a209c",
+						"unlink"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/users/82800d6f-8b62-44b1-a45b-62ee291a209c",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"82800d6f-8b62-44b1-a45b-62ee291a209c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Graph",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/graph",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"graph"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
