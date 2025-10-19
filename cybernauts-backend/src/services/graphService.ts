@@ -7,31 +7,30 @@ import { computePopularityScore } from "./userService";
  * - Edges represent mutual friendships
  */
 export async function getGraph() {
-  // Fetch all users with friends
+  // Fetch all users with friends, age, and popularity
   const { data: users, error } = await supabase
     .from("users")
-    .select("id, username, friends");
+    .select("id, username, age, popularity_score, friends");
 
   if (error) throw error;
-
   if (!users) return { nodes: [], edges: [] };
 
-  // Create nodes
+  // Create nodes including age and popularity
   const nodes = users.map((user) => ({
     id: user.id,
     label: user.username,
+    age: user.age ?? "Unknown",
+    popularity: user.popularity_score ?? 0,
   }));
 
   // Create edges (avoid circular duplicates)
   const edges: { id: string; source: string; target: string }[] = [];
-
   const seenPairs = new Set<string>();
 
   users.forEach((user) => {
     if (!user.friends || user.friends.length === 0) return;
 
     user.friends.forEach((friendId: string) => {
-      // Generate a unique sorted pair key to prevent circular duplicates
       const pairKey =
         user.id < friendId
           ? `${user.id}-${friendId}`

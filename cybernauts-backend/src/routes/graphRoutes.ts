@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
-import { getGraph } from "../services/graphService";
-import { recomputeAllPopularityScores } from "../services/graphService";
+import { getGraph, recomputeAllPopularityScores } from "../services/graphService";
 
 const router = express.Router();
 
@@ -18,17 +17,10 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
-
-router.get("/", async (req: Request, res: Response) => {
-  try {
-    const graphData = await getGraph();
-    res.json(graphData);
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// 🔥 Recompute popularity for all users
+/**
+ * @route POST /api/graph/recompute
+ * @desc Recompute popularity scores for all users
+ */
 router.post("/recompute", async (req: Request, res: Response) => {
   try {
     const result = await recomputeAllPopularityScores();
