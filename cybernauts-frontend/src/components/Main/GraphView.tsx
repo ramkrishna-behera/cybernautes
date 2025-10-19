@@ -11,6 +11,7 @@ import type { Node, Edge, Connection } from "reactflow";
 import "reactflow/dist/style.css";
 import axios from "axios";
 import dagre from "dagre";
+import Spinner from "../Spinner";
 
 interface GraphResponse {
   nodes: { id: string; label: string; age: number; popularity: number }[];
@@ -179,7 +180,7 @@ const GraphView = forwardRef((_, ref) => {
   );
 
   if (loading)
-    return <p style={{ textAlign: "center", marginTop: "20px" }}>Loading graph...</p>;
+    return <Spinner />;
 
   return (
     <div
