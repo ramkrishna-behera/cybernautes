@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useUsers } from "../../context/useUsers";
 import toast from "react-hot-toast";
 
