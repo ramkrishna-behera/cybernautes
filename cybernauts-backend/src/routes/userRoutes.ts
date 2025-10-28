@@ -126,6 +126,50 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
 
 
+// 🆕 POST /api/users/:id/hobbies — add a hobby to a user
+router.post("/:id/hobbies", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { hobby } = req.body;
+
+    if (!hobby || typeof hobby !== "string") {
+      return res.status(400).json({ error: "Hobby must be a non-empty string." });
+    }
+
+    // Fetch existing user
+    const { data: userData, error: userError } = await supabase
+      .from("users")
+      .select("hobbies")
+      .eq("id", id)
+      .single();
+
+    if (userError || !userData) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Merge hobby (avoid duplicates)
+    const existingHobbies: string[] = userData.hobbies || [];
+    const updatedHobbies = Array.from(new Set([...existingHobbies, hobby]));
+
+    // Update user
+    const { data: updatedUser, error: updateError } = await supabase
+      .from("users")
+      .update({ hobbies: updatedHobbies })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (updateError) throw updateError;
+
+    res.status(200).json({
+      message: `Hobby "${hobby}" added successfully.`,
+      user: updatedUser,
+    });
+  } catch (err: any) {
+    console.error("Error adding hobby:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 
 
