@@ -24,6 +24,27 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 120;
 const nodeHeight = 80;
 
+
+// Helper to interpolate colors between min and max popularity
+const getPopularityColor = (popularity: number) => {
+  const min = 0;
+  const max = 15;
+
+  // Clamp popularity to within range
+  const clamped = Math.min(Math.max(popularity, min), max);
+
+  // Normalize to 0–1 range
+  const ratio = (clamped - min) / (max - min);
+
+  // Gradient: Blue (low) → Green → Yellow → Red (high)
+  const r = Math.floor(255 * ratio);
+  const g = Math.floor(200 * (1 - Math.abs(ratio - 0.5) * 2)); // strong green in midrange
+  const b = Math.floor(255 * (1 - ratio));
+
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
+
 // Function to layout nodes using Dagre
 const getLayoutedElements = (nodes: Node[], edges: Edge[]) => {
   dagreGraph.setGraph({
@@ -70,7 +91,7 @@ const GraphView = forwardRef((_, ref) => {
       const { nodes, edges } = res.data;
 
       const styledNodes: Node[] = nodes.map((user) => {
-        const baseColor = user.popularity > 5 ? "#34d399" : "#3b82f6";
+        const baseColor = getPopularityColor(user.popularity);
         const nodeSize = 60 + user.popularity * 2;
 
         return {
