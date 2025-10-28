@@ -1,5 +1,4 @@
-// src/components/Sidebar/UserManagementPanel.tsx
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useUsers } from "../../context/useUsers";
 import toast from "react-hot-toast";
 
@@ -19,6 +18,8 @@ export default function UserManagementPanel({ onGraphRefresh }: UserManagementPa
   const [form, setForm] = useState({ username: "", age: "", hobbies: "" });
   const [editId, setEditId] = useState<string | null>(null);
   const [localLoading, setLocalLoading] = useState(false);
+  const formRef = useRef<HTMLDivElement | null>(null);
+  const [highlight, setHighlight] = useState(false);
 
   // Generic input handler
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +77,13 @@ export default function UserManagementPanel({ onGraphRefresh }: UserManagementPa
       age: String(u.age),
       hobbies: Array.isArray(u.hobbies) ? u.hobbies.join(", ") : "",
     });
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    // 👇 Scroll the form into view smoothly
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      setHighlight(true); // briefly highlight form
+      setTimeout(() => setHighlight(false), 800);
+    }, 100);
   };
 
   // Delete user
@@ -100,7 +107,15 @@ export default function UserManagementPanel({ onGraphRefresh }: UserManagementPa
   };
 
   return (
-    <div style={{ padding: 12 }}>
+    <div
+      ref={formRef}
+      style={{
+        padding: 12,
+        transition: "background-color 0.4s ease",
+        backgroundColor: highlight ? "#1f4cc933" : "transparent",
+        borderRadius: 8,
+      }}
+    >
       <h4 style={{ marginBottom: 8 }}>{editId ? "Edit User" : "Add User"}</h4>
 
       <form onSubmit={onSubmit} style={{ marginBottom: 16 }}>

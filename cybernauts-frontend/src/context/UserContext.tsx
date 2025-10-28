@@ -9,7 +9,6 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  console.log("Rendering UserPanel", users);
   const baseURL = import.meta.env.VITE_API_URL;
 
   const fetchUsers = useCallback(async () => {
@@ -24,13 +23,13 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [baseURL]);
 
   const createUser = useCallback(
     async (payload: { username: string; age: number; hobbies: string[] }) => {
       try {
         setLoading(true);
-        await axios.post("/api/users", payload);
+        await axios.post(`${baseURL}/api/users`, payload); // ✅ fixed
         toast.success("User created");
         await fetchUsers();
         window.dispatchEvent(new Event("graph-refresh"));
@@ -43,7 +42,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setLoading(false);
       }
     },
-    [fetchUsers]
+    [fetchUsers, baseURL]
   );
 
   const updateUser = useCallback(
@@ -51,9 +50,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         setLoading(true);
         try {
-          await axios.put(`/api/users/${id}`, payload);
+          await axios.put(`${baseURL}/api/users/${id}`, payload); // ✅ fixed
         } catch {
-          await axios.post(`/api/users/${id}`, payload);
+          await axios.post(`${baseURL}/api/users/${id}`, payload); // ✅ fixed fallback
         }
         toast.success("User updated");
         await fetchUsers();
@@ -67,14 +66,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setLoading(false);
       }
     },
-    [fetchUsers]
+    [fetchUsers, baseURL]
   );
 
   const deleteUser = useCallback(
     async (id: string) => {
       try {
         setLoading(true);
-        await axios.delete(`/api/users/${id}`);
+        await axios.delete(`${baseURL}/api/users/${id}`); // ✅ fixed
         toast.success("User deleted");
         await fetchUsers();
         window.dispatchEvent(new Event("graph-refresh"));
@@ -91,11 +90,20 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setLoading(false);
       }
     },
-    [fetchUsers]
+    [fetchUsers, baseURL]
   );
 
   return (
-    <UserContext.Provider value={{ users, loading, fetchUsers, createUser, updateUser, deleteUser }}>
+    <UserContext.Provider
+      value={{
+        users,
+        loading,
+        fetchUsers,
+        createUser,
+        updateUser,
+        deleteUser,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
